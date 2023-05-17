@@ -1,4 +1,4 @@
-#include "../include/adjacency_matrix.h"
+#include "../include/adjacency_list.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -10,13 +10,13 @@ void print_test_result(bool success) {
   }
 }
 
-void test_adjacency_matrix() {
+void test_adjacency_list() {
   Graph graph;
   int num_vertices = 5;
 
-  // Initialize the adjacency matrix
-  if (!init_matrix(&graph, num_vertices)) {
-    fprintf(stderr, "Failed to initialize the adjacency matrix.\n");
+  // Initialize the graph
+  if (!init_graph(&graph, num_vertices)) {
+    fprintf(stderr, "Failed to initialize the graph.\n");
     return;
   }
 
@@ -28,15 +28,15 @@ void test_adjacency_matrix() {
   add_edge(&graph, 3, 4, 2);
 
   // Check if edges exist
-  bool is_edge_01 = is_edge(&graph, 0, 1);
+  bool is_edge_01 = check_edge(&graph, 0, 1);
   print_test_result(is_edge_01 == true);
   printf("Edge between vertex 0 and vertex 1\n");
 
-  bool is_edge_13 = is_edge(&graph, 1, 3);
+  bool is_edge_13 = check_edge(&graph, 1, 3);
   print_test_result(is_edge_13 == false);
   printf("No edge between vertex 1 and vertex 3\n");
 
-  bool is_edge_23 = is_edge(&graph, 2, 3);
+  bool is_edge_23 = check_edge(&graph, 2, 3);
   print_test_result(is_edge_23 == false);
   printf("No edge between vertex 2 and vertex 3\n");
 
@@ -60,12 +60,15 @@ void test_adjacency_matrix() {
   print_test_result(is_adj_list_null_2 == false);
   printf("Adjacency list of vertex 2 is not null\n");
 
+  // Print the graph
+  print_graph(&graph);
+
   // Free the graph memory
   free_graph(&graph);
 }
 
 int main() {
-  test_adjacency_matrix();
+  test_adjacency_list();
 
   return 0;
 }
