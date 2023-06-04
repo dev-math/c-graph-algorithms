@@ -6,7 +6,7 @@
 #define INVALID_VERTICE NULL
 #define EMPTY_EDGE -1
 
-typedef int Weight;
+typedef double Weight;
 
 typedef struct Edge {
   int destination;
@@ -14,9 +14,11 @@ typedef struct Edge {
   struct Edge *next;
 } Edge;
 
+typedef Edge *Pointer;
+
 typedef struct Graph {
   int numVertices;
-  Edge **adjacency_list;
+  Pointer *adjacency_list;
 } Graph;
 
 /**
@@ -48,8 +50,7 @@ bool is_valid_vertex(const Graph *graph, int vertex);
 bool is_adjacency_list_null(const Graph *graph, int vertex);
 
 /**
- * Returns the next adjacent vertex to the given vertex, starting from the
- * current vertex.
+ * Returns the next adjacent vertex to the given vertex
  *
  * @param graph         The graph containing the adjacency list.
  * @param               current_vertex The current vertex representing the
@@ -58,7 +59,7 @@ bool is_adjacency_list_null(const Graph *graph, int vertex);
  * INVALID_VERTICE if the current vertex is invalid or there are no more
  * adjacent vertices.
  */
-Edge *get_next_adjacent_vertex(const Graph *graph, Edge *current_vertex);
+Pointer get_adjacent_vertex(const Graph *graph, Pointer current_vertex);
 
 /**
  * Checks if there is an edge between two given vertices in the graph.

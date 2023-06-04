@@ -9,7 +9,7 @@ bool init_graph(Graph *graph, int numVertices) {
   }
 
   graph->numVertices = numVertices;
-  graph->adjacency_list = (Edge **)calloc(numVertices, sizeof(Edge *));
+  graph->adjacency_list = (Pointer *)calloc(numVertices, sizeof(Pointer));
   if (graph->adjacency_list == NULL) {
     fprintf(stderr, "Memory allocation failed.\n");
     return false;
@@ -29,9 +29,8 @@ bool is_adjacency_list_null(const Graph *graph, int vertex) {
   return (graph->adjacency_list[vertex] == NULL);
 }
 
-Edge *get_next_adjacent_vertex(const Graph *graph, Edge *current_vertex) {
+Pointer get_next_adjacent_vertex(const Graph *graph, Pointer current_vertex) {
   if (!current_vertex) {
-    fprintf(stderr, "Invalid current vertex.\n");
     return INVALID_VERTICE;
   }
 
@@ -43,7 +42,7 @@ bool check_edge(const Graph *graph, int vertex1, int vertex2) {
     return false;
   }
 
-  Edge *edge = graph->adjacency_list[vertex1];
+  Pointer edge = graph->adjacency_list[vertex1];
   while (edge != NULL) {
     if (edge->destination == vertex2) {
       return true; // Edge found
@@ -59,7 +58,7 @@ Weight get_edge_weight(const Graph *graph, int source, int destination) {
     return EMPTY_EDGE;
   }
 
-  Edge *edge = graph->adjacency_list[source];
+  Pointer edge = graph->adjacency_list[source];
   while (edge != NULL) {
     if (edge->destination == destination) {
       return edge->weight;
@@ -75,7 +74,7 @@ bool add_edge(Graph *graph, int source, int destination, Weight weight) {
     return false; // Invalid vertices
   }
 
-  Edge *edge = (Edge *)calloc(1, sizeof(Edge));
+  Pointer edge = (Pointer)calloc(1, sizeof(Edge));
   if (!edge) {
     fprintf(stderr, "Memory allocation failed.\n");
     return false;
@@ -93,8 +92,8 @@ bool remove_edge(Graph *graph, int source, int destination, Weight *weight) {
     return false; // Invalid vertices
   }
 
-  Edge *prev = NULL;
-  Edge *current = graph->adjacency_list[source];
+  Pointer prev = NULL;
+  Pointer current = graph->adjacency_list[source];
 
   // Traverse the adjacency list of the source vertex
   while (current != NULL) {
@@ -129,9 +128,9 @@ void free_graph(Graph *graph) {
 
   // Free the adjacency list
   for (int i = 0; i < graph->numVertices; i++) {
-    Edge *current = graph->adjacency_list[i];
+    Pointer current = graph->adjacency_list[i];
     while (current != NULL) {
-      Edge *tmp = current;
+      Pointer tmp = current;
       current = current->next;
       free(tmp);
     }
@@ -150,7 +149,7 @@ void print_graph(const Graph *graph) {
   for (int i = 0; i < graph->numVertices; i++) {
     printf("Vertex %d:", i);
 
-    Edge *current = graph->adjacency_list[i];
+    Pointer current = graph->adjacency_list[i];
     while (current != NULL) {
       printf(" %d", current->destination);
       current = current->next;

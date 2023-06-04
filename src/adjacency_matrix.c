@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool init_matrix(Graph *graph, int numVertices) {
+bool init_graph(Graph *graph, int numVertices) {
   if (numVertices <= 0 || numVertices > MAX_VERTICES) {
     fprintf(
         stderr,
@@ -21,60 +21,16 @@ bool init_matrix(Graph *graph, int numVertices) {
   return true;
 }
 
-bool is_valid_vertex(Graph *graph, int vertex) {
+bool is_valid_vertex(const Graph *graph, int vertex) {
+  if (!graph) {
+    fprintf(stderr, "Error: Graph is not initialized.\n");
+    return false;
+  }
+
   return (vertex >= 0 && vertex < graph->numVertices);
 }
 
-bool add_edge(Graph *graph, int vertex1, int vertex2, Weight weight) {
-  if (!is_valid_vertex(graph, vertex1) || !is_valid_vertex(graph, vertex2)) {
-    fprintf(stderr,
-            "Invalid vertex index. Vertex index must be within the range of 0 "
-            "to %d.\n",
-            graph->numVertices - 1);
-    return false;
-  }
-
-  graph->numEdges++;
-  graph->matrix[vertex1][vertex2] = weight;
-  graph->matrix[vertex2][vertex1] = weight;
-
-  return true;
-}
-
-bool is_edge(Graph *graph, int vertex1, int vertex2) {
-
-  return graph->matrix[vertex1][vertex2] != EMPTY_EDGE;
-}
-
-Weight get_edge_weight(Graph *graph, int vertex1, int vertex2) {
-  if (!is_valid_vertex(graph, vertex1) || !is_valid_vertex(graph, vertex2)) {
-    return EMPTY_EDGE;
-  }
-
-  return graph->matrix[vertex1][vertex2];
-}
-
-bool remove_edge(Graph *graph, int vertex1, int vertex2, Weight *weight) {
-  if (!is_valid_vertex(graph, vertex1) || !is_valid_vertex(graph, vertex2)) {
-    fprintf(stderr,
-            "Invalid vertex index. Vertex index must be within the range of 0 "
-            "to %d.\n",
-            graph->numVertices - 1);
-    return false;
-  }
-
-  if (is_edge(graph, vertex1, vertex2)) {
-    *weight = graph->matrix[vertex1][vertex2];
-    graph->matrix[vertex1][vertex2] = EMPTY_EDGE;
-    graph->matrix[vertex2][vertex1] = EMPTY_EDGE;
-    graph->numEdges--;
-    return true;
-  }
-
-  return false;
-}
-
-bool is_adjacency_list_null(Graph *graph, int vertex) {
+bool is_adjacency_list_null(const Graph *graph, int vertex) {
   if (!is_valid_vertex(graph, vertex)) {
     return true;
   }
@@ -88,7 +44,7 @@ bool is_adjacency_list_null(Graph *graph, int vertex) {
   return true;
 }
 
-int get_next_adjacent_vertex(Graph *graph, int vertex, int current_vertex) {
+Pointer get_next_adjacent_vertex(const Graph *graph, int vertex, int current_vertex) {
   if (!is_valid_vertex(graph, vertex)) {
     fprintf(stderr,
             "Invalid vertex index. Vertex index must be within the range of 0 "
@@ -104,6 +60,59 @@ int get_next_adjacent_vertex(Graph *graph, int vertex, int current_vertex) {
   }
 
   return INVALID_VERTICE;
+}
+
+bool check_edge(const Graph *graph, int vertex1, int vertex2) {
+  if (!is_valid_vertex(graph, vertex1) || !is_valid_vertex(graph, vertex2)) {
+    fprintf(stderr,
+            "Invalid vertex index. Vertex index must be within the range of 0 "
+            "to %d.\n",
+            graph->numVertices - 1);
+    return false;
+  }
+
+  return graph->matrix[vertex1][vertex2] != EMPTY_EDGE;
+}
+
+Weight get_edge_weight(const Graph *graph, int vertex1, int vertex2) {
+  if (!is_valid_vertex(graph, vertex1) || !is_valid_vertex(graph, vertex2)) {
+    fprintf(stderr,
+            "Invalid vertex index. Vertex index must be within the range of 0 "
+            "to %d.\n",
+            graph->numVertices - 1);
+    return EMPTY_EDGE;
+  }
+
+  return graph->matrix[vertex1][vertex2];
+}
+
+bool add_edge(Graph *graph, int source, int destination, Weight weight) {
+  if (!is_valid_vertex(graph, source) || !is_valid_vertex(graph, destination)) {
+    fprintf(stderr,
+            "Invalid vertex index. Vertex index must be within the range of 0 "
+            "to %d.\n",
+            graph->numVertices - 1);
+    return false;
+  }
+
+  graph->numEdges++;
+  graph->matrix[source][destination] = weight;
+  graph->matrix[destination][source] = weight;
+
+  return true;
+}
+
+bool remove_edge(Graph *graph, int source, int destination, Weight *weight) {
+  if (check_edge(graph, source, destination)) {
+    *weight = graph->matrix[source][destination];
+
+    graph->numEdges--;
+    graph->matrix[source][destination] = EMPTY_EDGE;
+    graph->matrix[destination][source] = EMPTY_EDGE;
+    return true;
+  }
+
+  return false;
 }
 
 void free_graph(Graph *graph) {
