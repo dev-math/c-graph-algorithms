@@ -21,17 +21,29 @@ bool init_graph(Graph *graph, int numVertices) {
   return true;
 }
 
-bool is_valid_vertex(const Graph *graph, int vertex) {
+bool is_valid_graph(const Graph *graph) {
   if (!graph) {
     fprintf(stderr, "Error: Graph is not initialized.\n");
     return false;
   }
+  return true;
+}
 
-  return (vertex >= 0 && vertex < graph->numVertices);
+bool is_valid_vertex(const Graph *graph, int vertex) {
+  if (vertex < 0 || vertex > graph->numVertices) {
+    fprintf(stderr,
+            "Invalid vertex index. Vertex index must be within the range of 0 "
+            "to %d.\n",
+            graph->numVertices - 1);
+    return false;
+  }
+
+  return true;
 }
 
 bool is_adjacency_list_null(const Graph *graph, int vertex) {
-  if (!is_valid_vertex(graph, vertex)) {
+  if (!is_valid_graph(graph) || !is_valid_graph(graph) ||
+      !is_valid_vertex(graph, vertex)) {
     return true;
   }
 
@@ -45,12 +57,9 @@ bool is_adjacency_list_null(const Graph *graph, int vertex) {
 }
 
 Pointer get_next_adjacent_vertex(const Graph *graph, int vertex,
-                                 int current_vertex) {
-  if (!is_valid_vertex(graph, vertex)) {
-    fprintf(stderr,
-            "Invalid vertex index. Vertex index must be within the range of 0 "
-            "to %d.\n",
-            graph->numVertices - 1);
+                                 Pointer current_vertex) {
+  if (!is_valid_graph(graph) || !is_valid_graph(graph) ||
+      !is_valid_vertex(graph, vertex)) {
     return EMPTY_EDGE;
   }
 
@@ -64,11 +73,8 @@ Pointer get_next_adjacent_vertex(const Graph *graph, int vertex,
 }
 
 bool check_edge(const Graph *graph, int vertex1, int vertex2) {
-  if (!is_valid_vertex(graph, vertex1) || !is_valid_vertex(graph, vertex2)) {
-    fprintf(stderr,
-            "Invalid vertex index. Vertex index must be within the range of 0 "
-            "to %d.\n",
-            graph->numVertices - 1);
+  if (!is_valid_graph(graph) || !is_valid_vertex(graph, vertex1) ||
+      !is_valid_vertex(graph, vertex2)) {
     return false;
   }
 
@@ -76,11 +82,8 @@ bool check_edge(const Graph *graph, int vertex1, int vertex2) {
 }
 
 Weight get_edge_weight(const Graph *graph, int vertex1, int vertex2) {
-  if (!is_valid_vertex(graph, vertex1) || !is_valid_vertex(graph, vertex2)) {
-    fprintf(stderr,
-            "Invalid vertex index. Vertex index must be within the range of 0 "
-            "to %d.\n",
-            graph->numVertices - 1);
+  if (!is_valid_graph(graph) || !is_valid_vertex(graph, vertex1) ||
+      !is_valid_vertex(graph, vertex2)) {
     return EMPTY_EDGE;
   }
 
@@ -88,11 +91,8 @@ Weight get_edge_weight(const Graph *graph, int vertex1, int vertex2) {
 }
 
 bool add_edge(Graph *graph, int source, int destination, Weight weight) {
-  if (!is_valid_vertex(graph, source) || !is_valid_vertex(graph, destination)) {
-    fprintf(stderr,
-            "Invalid vertex index. Vertex index must be within the range of 0 "
-            "to %d.\n",
-            graph->numVertices - 1);
+  if (!is_valid_graph(graph) || !is_valid_vertex(graph, source) ||
+      !is_valid_vertex(graph, destination)) {
     return false;
   }
 
@@ -122,8 +122,7 @@ void free_graph(Graph *graph) {
 }
 
 void print_graph(const Graph *graph) {
-  if (!graph) {
-    fprintf(stderr, "Error: Graph is not initialized.\n");
+  if (!is_valid_graph(graph) || !is_valid_graph(graph)) {
     return;
   }
 
@@ -133,7 +132,7 @@ void print_graph(const Graph *graph) {
     printf("Vertex %d:", i);
 
     for (int j = 0; j < numVertices; j++) {
-      if (graph->matrix[i][j] != 0) {
+      if (graph->matrix[i][j] != EMPTY_EDGE) {
         printf(" %d", j);
       }
     }

@@ -14,9 +14,9 @@ void test_adjacency_list() {
   Graph graph;
   int num_vertices = 5;
 
-  // Initialize the graph
+  // Initialize the adjacency list
   if (!init_graph(&graph, num_vertices)) {
-    fprintf(stderr, "Failed to initialize the graph.\n");
+    fprintf(stderr, "Failed to initialize the adjacency list.\n");
     return;
   }
 
@@ -43,13 +43,13 @@ void test_adjacency_list() {
   // Get edge weight
   Weight weight_03 = get_edge_weight(&graph, 0, 3);
   print_test_result(weight_03 == 5);
-  printf("Weight of the edge between vertex 0 and vertex 3: %d\n", weight_03);
+  printf("Weight of the edge between vertex 0 and vertex 3: %.2f\n", weight_03);
 
   // Remove an edge
   Weight removed_weight;
   bool is_edge_removed = remove_edge(&graph, 1, 2, &removed_weight);
   print_test_result(is_edge_removed == true);
-  printf("Removed edge 1->2 weight: %d\n", removed_weight);
+  printf("Removed edge 1->2 weight: %.2f\n", removed_weight);
 
   // Check if adjacency list is null
   bool is_adj_list_null_0 = is_adjacency_list_null(&graph, 0);
@@ -61,6 +61,7 @@ void test_adjacency_list() {
   printf("Adjacency list of vertex 2 is not null\n");
 
   // Print the graph
+  printf("\nGraph:\n");
   print_graph(&graph);
 
   // Free the graph memory

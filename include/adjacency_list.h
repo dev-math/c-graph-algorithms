@@ -22,8 +22,6 @@ typedef struct Graph {
 } Graph;
 
 /**
- * Initialize a graph with the specified number of vertices.
- *
  * @param graph         Pointer to the graph struct to be initialized.
  * @param numVertices   Number of vertices in the graph.
  * @return              True if the graph is initialized successfully, false
@@ -32,8 +30,13 @@ typedef struct Graph {
 bool init_graph(Graph *graph, int numVertices);
 
 /**
- * Checks if a given vertex index is valid in the graph.
- *
+ * @param graph     Pointer to the graph struct to be checked.
+ * @return          Returns true if the graph is valid, i.e., it has been initialized,
+ *                  and false otherwise.
+ */
+bool is_valid_graph(const Graph *graph);
+
+/**
  * @param graph         Pointer to the graph struct.
  * @param vertex        The index of the vertex.
  * @return              True if the vertex index is valid, false otherwise.
@@ -41,8 +44,6 @@ bool init_graph(Graph *graph, int numVertices);
 bool is_valid_vertex(const Graph *graph, int vertex);
 
 /**
- * Check if the adjacency list of a vertex is null.
- *
  * @param graph         Pointer to the graph struct.
  * @param vertex        Vertex to check the adjacency list for.
  * @return              True if the adjacency list is null, false otherwise.
@@ -50,41 +51,37 @@ bool is_valid_vertex(const Graph *graph, int vertex);
 bool is_adjacency_list_null(const Graph *graph, int vertex);
 
 /**
- * Returns the next adjacent vertex to the given vertex
- *
- * @param graph         The graph containing the adjacency list.
- * @param               current_vertex The current vertex representing the
- * current position in the adjacency list.
- * @return              Pointer to the next adjacent vertex if found, or
- * INVALID_VERTICE if the current vertex is invalid or there are no more
- * adjacent vertices.
+ * @param graph           The graph struct.
+ * @param vertex          The index of the vertex to get the next adjacent
+ * vertex from.
+ * @param current_vertex  The index of the current adjacent vertex to start
+ * from.
+ * @return                The index of the next adjacent vertex, or
+ * INVALID_VERTICE if there are no more adjacent vertices. Returns
+ * INVALID_VERTICE num if the vertex index is invalid.
  */
-Pointer get_adjacent_vertex(const Graph *graph, Pointer current_vertex);
+Pointer get_next_adjacent_vertex(const Graph *graph, int vertex,
+                                 Pointer current_vertex);
 
 /**
- * Checks if there is an edge between two given vertices in the graph.
- *
- * @param graph The graph containing the adjacency list.
- * @param vertex1 The first vertex.
- * @param vertex2 The second vertex.
- * @return True if there is an edge between the vertices, false otherwise.
+ * @param graph         The graph containing the adjacency list.
+ * @param vertex1       The first vertex.
+ * @param vertex2       The second vertex.
+ * @return              True if there is an edge between the vertices, false
+ * otherwise.
  */
 bool check_edge(const Graph *graph, int vertex1, int vertex2);
 
 /**
- * Get the weight of an edge between two vertices in the graph.
- *
  * @param graph         Pointer to the graph struct.
- * @param source        Source vertex of the edge.
- * @param destination   Destination vertex of the edge.
+ * @param vertex1       Source vertex of the edge.
+ * @param vertex2       Destination vertex of the edge.
  * @return              Weight of the edge if it exists, or EMPTY_EDGE if the
  * edge doesn't exist.
  */
-Weight get_edge_weight(const Graph *graph, int source, int destination);
+Weight get_edge_weight(const Graph *graph, int vertex1, int vertex2);
 
 /**
- * Add an edge between two vertices in the graph.
- *
  * @param graph         Pointer to the graph struct.
  * @param source        Source vertex of the edge.
  * @param destination   Destination vertex of the edge.
@@ -94,20 +91,16 @@ Weight get_edge_weight(const Graph *graph, int source, int destination);
 bool add_edge(Graph *graph, int source, int destination, Weight weight);
 
 /**
- * Remove an edge between two vertices in the graph.
- *
  * @param graph         Pointer to the graph struct.
  * @param source        Source vertex of the edge.
  * @param destination   Destination vertex of the edge.
- * @param weight        Pointer to an integer to store the removed edge weight
+ * @param weight        Pointer to a Weight to store the removed edge weight
  * @return              True if the edge is removed successfully, false
  * otherwise.
  */
 bool remove_edge(Graph *graph, int source, int destination, Weight *weight);
 
 /**
- * Free the memory allocated for the graph.
- *
  * @param graph         Pointer to the graph struct to be freed.
  */
 void free_graph(Graph *graph);

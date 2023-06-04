@@ -25,6 +25,13 @@ typedef struct Graph {
 bool init_graph(Graph *graph, int numVertices);
 
 /**
+ * @param graph     Pointer to the graph struct to be checked.
+ * @return          Returns true if the graph is valid, i.e., it has been initialized,
+ *                  and false otherwise.
+ */
+bool is_valid_graph(const Graph *graph);
+
+/**
  * @param graph         Pointer to the graph struct.
  * @param vertex        The index of the vertex.
  * @return              True if the vertex index is valid, false otherwise.
@@ -45,7 +52,7 @@ bool is_adjacency_list_null(const Graph *graph, int vertex);
  * @return                The index of the next adjacent vertex, or INVALID_VERTICE if there are no more
  * adjacent vertices. Returns INVALID_VERTICE num if the vertex index is invalid.
  */
-Pointer get_next_adjacent_vertex(const Graph *graph, int vertex, int current_vertex);
+Pointer get_next_adjacent_vertex(const Graph *graph, int vertex, Pointer current_vertex);
 
 /**
  * @param graph         The graph containing the adjacency list.
