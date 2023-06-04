@@ -1,4 +1,9 @@
+#ifdef USE_MATRIX_IMPLEMENTATION
 #include "../include/adjacency_matrix.h"
+#elif USE_LIST_IMPLEMENTATION
+#include "../include/adjacency_list.h"
+#endif
+
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -10,13 +15,16 @@ void print_test_result(bool success) {
   }
 }
 
-void test_adjacency_matrix() {
+void test() {
   Graph graph;
   int num_vertices = 5;
 
-  // Initialize the adjacency matrix
   if (!init_graph(&graph, num_vertices)) {
-    fprintf(stderr, "Failed to initialize the adjacency matrix.\n");
+  #ifdef USE_MATRIX_IMPLEMENTATION
+    fprintf(stderr, "Failed to initialize the matrix.\n");
+  #elif USE_LIST_IMPLEMENTATION
+    fprintf(stderr, "Failed to initialize the list.\n");
+  #endif
     return;
   }
 
@@ -69,7 +77,7 @@ void test_adjacency_matrix() {
 }
 
 int main() {
-  test_adjacency_matrix();
+  test();
 
   return 0;
 }
