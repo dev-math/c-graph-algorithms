@@ -44,7 +44,8 @@ bool is_adjacency_list_null(const Graph *graph, int vertex) {
   return true;
 }
 
-Pointer get_next_adjacent_vertex(const Graph *graph, int vertex, int current_vertex) {
+Pointer get_next_adjacent_vertex(const Graph *graph, int vertex,
+                                 int current_vertex) {
   if (!is_valid_vertex(graph, vertex)) {
     fprintf(stderr,
             "Invalid vertex index. Vertex index must be within the range of 0 "
@@ -118,4 +119,25 @@ bool remove_edge(Graph *graph, int source, int destination, Weight *weight) {
 void free_graph(Graph *graph) {
   // No dynamically allocated memory in the adjacency matrix graph
   // So, no action is required to free the memory
+}
+
+void print_graph(const Graph *graph) {
+  if (!graph) {
+    fprintf(stderr, "Error: Graph is not initialized.\n");
+    return;
+  }
+
+  int numVertices = graph->numVertices;
+
+  for (int i = 0; i < numVertices; i++) {
+    printf("Vertex %d:", i);
+
+    for (int j = 0; j < numVertices; j++) {
+      if (graph->matrix[i][j] != 0) {
+        printf(" %d", j);
+      }
+    }
+
+    printf("\n");
+  }
 }
