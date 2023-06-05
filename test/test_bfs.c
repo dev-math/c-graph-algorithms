@@ -1,4 +1,4 @@
-#include "../include/dfs.h"
+#include "../include/bfs.h"
 #include <stdio.h>
 
 #ifdef USE_MATRIX_IMPLEMENTATION
@@ -23,8 +23,8 @@ int main() {
 
   // Perform DFS
   int initialVertex = 0;
-  printf("DFS Traversal:\n");
-  dfs(&graph, initialVertex);
+  printf("BFS Traversal:\n");
+  bfs(&graph, initialVertex);
 
   // Free the graph
   free_graph(&graph);

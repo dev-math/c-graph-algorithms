@@ -20,11 +20,7 @@ void test() {
   int num_vertices = 5;
 
   if (!init_graph(&graph, num_vertices)) {
-  #ifdef USE_MATRIX_IMPLEMENTATION
-    fprintf(stderr, "Failed to initialize the matrix.\n");
-  #elif USE_LIST_IMPLEMENTATION
-    fprintf(stderr, "Failed to initialize the list.\n");
-  #endif
+    fprintf(stderr, "Failed to initialize the graph.\n");
     return;
   }
 

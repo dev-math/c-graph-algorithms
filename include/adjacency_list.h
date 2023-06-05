@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define INVALID_VERTICE NULL
+#define INVALID_VERTEX NULL
 #define EMPTY_EDGE -1
 
 typedef double Weight;
@@ -31,8 +31,8 @@ bool init_graph(Graph *graph, int numVertices);
 
 /**
  * @param graph     Pointer to the graph struct to be checked.
- * @return          Returns true if the graph is valid, i.e., it has been initialized,
- *                  and false otherwise.
+ * @return          Returns true if the graph is valid, i.e., it has been
+ * initialized, and false otherwise.
  */
 bool is_valid_graph(const Graph *graph);
 
@@ -57,8 +57,8 @@ bool is_adjacency_list_null(const Graph *graph, int vertex);
  * @param current_vertex  The index of the current adjacent vertex to start
  * from.
  * @return                The index of the next adjacent vertex, or
- * INVALID_VERTICE if there are no more adjacent vertices. Returns
- * INVALID_VERTICE num if the vertex index is invalid.
+ * INVALID_VERTEX if there are no more adjacent vertices. Returns
+ * INVALID_VERTEX num if the vertex index is invalid.
  */
 Pointer get_next_adjacent_vertex(const Graph *graph, int vertex,
                                  Pointer current_vertex);
@@ -111,5 +111,22 @@ void free_graph(Graph *graph);
  * @param graph The graph to be printed.
  */
 void print_graph(const Graph *graph);
+
+/**
+ * @param graph       Pointer to the graph struct.
+ * @param source      Source vertex of the edge.
+ * @param edge        Pointer to the edge
+ * @return            The destination vertex of the edge, or INVALID_VERTEX if
+ * the edge doesn't exist.
+ */
+int get_destination_vertex(const Graph *graph, int source, Pointer edge);
+
+/**
+ * @param graph       Pointer to the graph struct.
+ * @param vertex      Vertex to convert.
+ * @return            The Pointer of the vertex, or INVALID_VERTEX if the vertex
+ * doesn't exist
+ */
+Pointer get_vertex_ptr(const Graph *graph, int vertex);
 
 #endif

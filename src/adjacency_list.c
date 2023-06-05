@@ -47,12 +47,14 @@ bool is_adjacency_list_null(const Graph *graph, int vertex) {
 
 Pointer get_next_adjacent_vertex(const Graph *graph, int vertex,
                                  Pointer current_vertex) {
-  if (!current_vertex) {
-    fprintf(stderr, "Error: current_vertex is null!\n");
-    return INVALID_VERTICE;
+  if (!is_valid_graph(graph) || !is_valid_vertex(graph, vertex) ||
+      is_adjacency_list_null(graph, vertex)) {
+    return INVALID_VERTEX;
   }
 
-  return (current_vertex->next);
+  Pointer next_adjacent =
+      current_vertex ? current_vertex->next : graph->adjacency_list[vertex];
+  return next_adjacent;
 }
 
 bool check_edge(const Graph *graph, int vertex1, int vertex2) {
@@ -102,9 +104,54 @@ bool add_edge(Graph *graph, int source, int destination, Weight weight) {
   }
   edge->destination = destination;
   edge->weight = weight;
-  edge->next = graph->adjacency_list[source];
-  graph->adjacency_list[source] = edge;
-  // graph->numEdges++; //TODO: check if I need this prop
+
+  Pointer prev = NULL;
+  Pointer curr = graph->adjacency_list[source];
+
+  // Find the correct position to insert the edge
+  while (curr != NULL && curr->destination < destination) {
+    prev = curr;
+    curr = curr->next;
+  }
+
+  if (prev == NULL) {
+    // Insert at the beginning of the list
+    edge->next = graph->adjacency_list[source];
+    graph->adjacency_list[source] = edge;
+  } else {
+    // Insert in the middle or at the end of the list
+    prev->next = edge;
+    edge->next = curr;
+  }
+
+  // for an undirected graph
+  Pointer reverse_edge = (Pointer)calloc(1, sizeof(Edge));
+  if (!reverse_edge) {
+    fprintf(stderr, "Memory allocation failed.\n");
+    return false;
+  }
+  reverse_edge->destination = source;
+  reverse_edge->weight = weight;
+
+  prev = NULL;
+  curr = graph->adjacency_list[destination];
+
+  // Find the correct position to insert the reverse edge
+  while (curr != NULL && curr->destination < source) {
+    prev = curr;
+    curr = curr->next;
+  }
+
+  if (prev == NULL) {
+    // Insert at the beginning of the list
+    reverse_edge->next = graph->adjacency_list[destination];
+    graph->adjacency_list[destination] = reverse_edge;
+  } else {
+    // Insert in the middle or at the end of the list
+    prev->next = reverse_edge;
+    reverse_edge->next = curr;
+  }
+
   return true;
 }
 
@@ -179,4 +226,21 @@ void print_graph(const Graph *graph) {
 
     printf("\n");
   }
+}
+
+int get_destination_vertex(const Graph *graph, int source, Pointer edge) {
+  if (!is_valid_graph(graph) || !is_valid_vertex(graph, source) ||
+      edge == NULL) {
+    return EMPTY_EDGE;
+  }
+
+  return edge->destination;
+}
+
+Pointer get_vertex_ptr(const Graph *graph, int vertex) {
+  if (!is_valid_graph(graph) || !is_valid_vertex(graph, vertex)) {
+    return INVALID_VERTEX;
+  }
+
+  return graph->adjacency_list[vertex];
 }

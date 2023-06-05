@@ -58,8 +58,7 @@ bool is_adjacency_list_null(const Graph *graph, int vertex) {
 
 Pointer get_next_adjacent_vertex(const Graph *graph, int vertex,
                                  Pointer current_vertex) {
-  if (!is_valid_graph(graph) || !is_valid_graph(graph) ||
-      !is_valid_vertex(graph, vertex)) {
+  if (!is_valid_graph(graph) || !is_valid_vertex(graph, vertex)) {
     return EMPTY_EDGE;
   }
 
@@ -69,7 +68,7 @@ Pointer get_next_adjacent_vertex(const Graph *graph, int vertex,
     }
   }
 
-  return INVALID_VERTICE;
+  return INVALID_VERTEX;
 }
 
 bool check_edge(const Graph *graph, int vertex1, int vertex2) {
@@ -139,4 +138,20 @@ void print_graph(const Graph *graph) {
 
     printf("\n");
   }
+}
+
+int get_destination_vertex(const Graph *graph, int source, Pointer edge) {
+  if (!check_edge(graph, source, edge)) {
+    return EMPTY_EDGE;
+  }
+
+  return edge;
+}
+
+Pointer get_vertex_ptr(const Graph *graph, int vertex) {
+  if (!is_valid_graph(graph) || !is_valid_vertex(graph, vertex)) {
+    return INVALID_VERTEX;
+  }
+
+  return vertex;
 }
