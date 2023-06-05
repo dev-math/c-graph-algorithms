@@ -162,7 +162,7 @@ void free_graph(Graph *graph) {
 }
 
 void print_graph(const Graph *graph) {
-  if (!is_valid_graph(graph) || !is_valid_graph(graph)) {
+  if (!is_valid_graph(graph)) {
     return;
   }
 
