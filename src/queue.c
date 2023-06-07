@@ -48,10 +48,8 @@ int dequeue(Queue *queue) {
 
 bool is_empty(const Queue *queue) { return (queue->front == NULL); }
 
-bool free_queue(Queue *queue) {
+void free_queue(Queue *queue) {
   while (!is_empty(queue)) {
     dequeue(queue);
   }
-
-  return true;
 }

@@ -48,6 +48,6 @@ bool is_empty(const Queue *queue);
  * @param   queue   Pointer to the queue.
  * @return          None.
  */
-bool free_queue(Queue *queue);
+void free_queue(Queue *queue);
 
 #endif
