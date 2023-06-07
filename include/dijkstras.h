@@ -1,5 +1,5 @@
-#ifndef PRIM_H
-#define PRIM_H
+#ifndef DIJKSTRAS_H 
+#define DIJKSTRAS_H 
 
 #ifdef USE_MATRIX_IMPLEMENTATION
 #include "adjacency_matrix.h"
@@ -7,11 +7,10 @@
 #include "adjacency_list.h"
 #endif
 
-#define INFINITY_POS 999999
-#define INFINITY_NEG (-999999)
+#define INFINITY 999999
 #define VISITED true
 #define UNVISITED false
 
-Graph mst_prim(Graph *graph, int initialVertex);
+void dijkstra(const Graph *graph, int source);
 
 #endif

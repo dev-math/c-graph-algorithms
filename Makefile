@@ -25,5 +25,11 @@ test_prim_matrix:
 test_prim_list:
 	$(CC) $(CFLAGS) -DUSE_LIST_IMPLEMENTATION src/adjacency_list.c src/prim.c src/heap.c test/test_prim.c -o test_prim_list.o
 
+test_dijkstras_matrix:
+	$(CC) $(CFLAGS) -DUSE_MATRIX_IMPLEMENTATION src/adjacency_matrix.c src/dijkstras.c test/test_dijkstras.c -o test_dijkstras_matrix.o
+
+test_dijkstras_list:
+	$(CC) $(CFLAGS) -DUSE_LIST_IMPLEMENTATION src/adjacency_list.c src/dijkstras.c test/test_dijkstras.c -o test_dijkstras_list.o
+
 clean:
 	rm -f *.o
