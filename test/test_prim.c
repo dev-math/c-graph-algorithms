@@ -1,16 +1,6 @@
 #include "../include/prim.h"
 #include <stdio.h>
 
-void printMST(const Graph *graph, const Graph *mst) {
-  printf("Minimum Spanning Tree:\n");
-  printf("Edge \tWeight\n");
-  for (int v = 1; v < mst->numVertices; v++) {
-    int u = mst->adjacency_list[v]->destination;
-    Weight weight = mst->adjacency_list[v]->weight;
-    printf("%d - %d \t%.2lf\n", u, v, weight);
-  }
-}
-
 int main() {
   Graph graph;
   int numVertices = 5;
@@ -26,7 +16,7 @@ int main() {
 
   Graph mst = mst_prim(&graph, 0);
 
-  printMST(&graph, &mst);
+  print_graph(&mst);
 
   free_graph(&graph);
   free_graph(&mst);
