@@ -284,7 +284,6 @@ void split_child(BTreeNode *parent, int index) {
 
   BTreeNode *new_child = create_btree_node();
   new_child->isLeaf = child->isLeaf;
-  // new_child->keysSize = T - 1; // TODO: see if I need this
   parent->children[index + 1] = new_child;
 
   // insert the median of the full child into parent
