@@ -31,6 +31,9 @@ test_dijkstras_matrix:
 test_dijkstras_list:
 	$(CC) $(CFLAGS) -DUSE_LIST_IMPLEMENTATION src/adjacency_list.c src/dijkstras.c test/test_dijkstras.c -o test_dijkstras_list.o && ./test_dijkstras_list
 
+test_bplustree:
+	$(CC) $(CFLAGS) src/bplustree.c test/test_bplustree.c -o test_bplustree.o && ./test_bplustree.o
+
 test_btree:
 	$(CC) $(CFLAGS) src/btree.c test/test_btree.c -o test_btree.o && ./test_btree.o
 
